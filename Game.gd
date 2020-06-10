@@ -37,7 +37,3 @@ func _input(event):
 			giver.remove_child(player_node)
 			recipient.add_child(player_node)			
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

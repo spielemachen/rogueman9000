@@ -7,6 +7,8 @@ extents = Vector2( 4, 4 )
 
 [node name="LuisHugoGruber" type="KinematicBody2D"]
 position = Vector2( 32, 32 )
+collision_layer = 2
+collision_mask = 23
 collision/safe_margin = 0.001
 
 [node name="Sprite" type="Sprite" parent="."]
