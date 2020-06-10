@@ -5,7 +5,6 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-export var player_node_path: NodePath
 export(Array, NodePath) var switch_partner_node_paths: Array
 
 var player_node
@@ -13,9 +12,12 @@ var switch_partner_nodes: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player_node = get_node(player_node_path)
 	for node_path in switch_partner_node_paths:
-		switch_partner_nodes.push_back(get_node(node_path))
+		var switcher_node = get_node(node_path)
+		switch_partner_nodes.push_back(switcher_node)
+		if switcher_node.has_node("Player"):
+			player_node = switcher_node.get_node("Player")
+		
 	pass # Replace with function body.
 
 func _input(event):

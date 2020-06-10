@@ -1,17 +1,17 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://colored_tilemap.png" type="Texture" id=1]
-[ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MoveRight.gd" type="Script" id=3]
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://master_tileset.tres" type="TileSet" id=5]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=6]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
-player_node_path = NodePath("FrankTheSchrank/Player")
-switch_partner_node_paths = [ NodePath("LuisHugoGruber"), NodePath("FrankTheSchrank") ]
+switch_partner_node_paths = [ NodePath("FrankTheSchrank"), NodePath("LuisHugoGruber") ]
 
-[node name="CollisionMap" type="TileMap" parent="."]
+[node name="WorldMap" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
 cell_size = Vector2( 8, 8 )
 cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
@@ -28,30 +28,14 @@ region_rect = Rect2( 63, 0, 8, 8 )
 [node name="MoveRight" type="Node" parent="PseudoFrank"]
 script = ExtResource( 3 )
 
-[node name="LuisHugoGruber" type="Sprite" parent="."]
-position = Vector2( 32, 32 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 99, 0, 8, 8 )
+[node name="FrankTheSchrank" parent="." instance=ExtResource( 2 )]
+position = Vector2( 104, 64 )
+tile_map_path = "/root/Game/WorldMap"
 
-[node name="FrankTheSchrank" type="Sprite" parent="."]
-position = Vector2( 104, 104 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 63, 0, 8, 8 )
+[node name="LuisHugoGruber" parent="." instance=ExtResource( 6 )]
 
-[node name="Player" type="Node2D" parent="FrankTheSchrank"]
-script = ExtResource( 2 )
-map_path = NodePath("../../CollisionMap")
+[node name="LuisHugoGruber2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 96, 32 )
 
-[node name="Camera2D" type="Camera2D" parent="FrankTheSchrank/Player"]
-position = Vector2( 4, 4 )
-current = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-drag_margin_left = 0.5
-drag_margin_top = 0.5
-drag_margin_right = 0.5
-drag_margin_bottom = 0.5
+[node name="LuisHugoGruber3" parent="." instance=ExtResource( 6 )]
+position = Vector2( 72, 64 )
