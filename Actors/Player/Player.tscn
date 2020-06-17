@@ -1,9 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://colored_tilemap.png" type="Texture" id=2]
-[ext_resource path="res://PlayerVars.gd" type="Script" id=3]
-[ext_resource path="res://Inventory.gd" type="Script" id=4]
+[ext_resource path="res://Actors/Inventory.gd" type="Script" id=1]
+[ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Actors/Player/PlayerVars.gd" type="Script" id=3]
+[ext_resource path="res://Assets/colored_tilemap.png" type="Texture" id=4]
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 4 )
@@ -15,20 +16,20 @@ collision/safe_margin = 0.001
 script = ExtResource( 3 )
 
 [node name="Inventory" type="Node" parent="."]
-script = ExtResource( 4 )
+script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 4 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 63, 0, 8, 8 )
 
 [node name="Player" type="Node2D" parent="."]
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( 4, 4 )

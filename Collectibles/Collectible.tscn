@@ -1,11 +1,22 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Collectible.gd" type="Script" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
 
-[sub_resource type="CircleShape2D" id=1]
+export var item_name: String
+
+func _on_collect(body: Node2D):
+	if body.has_node(\"Inventory\"):
+		body.get_node(\"Inventory\").call(\"add\", item_name)
+		$Collider.queue_free()
+		$AnimationPlayer.play(\"Blöb\")
+		
+"
+
+[sub_resource type="CircleShape2D" id=2]
 radius = 2.87558
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 resource_name = "Blöb"
 tracks/0/type = "value"
 tracks/0/path = NodePath("..:scale")
@@ -59,12 +70,12 @@ tracks/3/keys = {
 [node name="Collectible" type="Area2D"]
 collision_layer = 8
 collision_mask = 4
-script = ExtResource( 1 )
+script = SubResource( 1 )
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 4 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/Blöb" = SubResource( 2 )
+"anims/Blöb" = SubResource( 3 )
 [connection signal="body_entered" from="." to="." method="_on_collect"]

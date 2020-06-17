@@ -1,34 +1,23 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://colored_tilemap.png" type="Texture" id=1]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MoveRight.gd" type="Script" id=3]
-[ext_resource path="res://Game.gd" type="Script" id=4]
-[ext_resource path="res://master_tileset.tres" type="TileSet" id=5]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Collectible.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Key.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/colored_tilemap.png" type="Texture" id=1]
+[ext_resource path="res://Actors/Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Collectibles/Collectible.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/master_tileset.tres" type="TileSet" id=4]
+[ext_resource path="res://Collectibles/Key.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Actors/Enemies/Enemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Game/Game.gd" type="Script" id=7]
 
 [node name="Game" type="Node2D"]
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 switch_partner_node_paths = [ NodePath("FrankTheSchrank"), NodePath("LuisHugoGruber") ]
 
 [node name="WorldMap" type="TileMap" parent="."]
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 4 )
 cell_size = Vector2( 8, 8 )
 cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 1, 3, 0, 1, 4, 0, 1, 5, 0, 1, 6, 0, 1, 7, 0, 1, 8, 0, 1, 9, 0, 1, 11, 0, 1, 12, 0, 1, 13, 0, 1, 14, 0, 1, 15, 0, 1, 16, 0, 1, 17, 0, 1, 18, 0, 1, 19, 0, 1, 20, 0, 1, 21, 0, 1, 22, 0, 1, 23, 0, 1, 24, 0, 3, 65536, 0, 65536, 65560, 0, 65539, 131072, 0, 65536, 131096, 0, 65539, 196608, 0, 65536, 196632, 0, 65539, 262144, 0, 65536, 262168, 0, 65539, 327680, 0, 65536, 327704, 0, 65539, 393216, 0, 65536, 393240, 0, 65539, 458752, 0, 65536, 458776, 0, 65539, 524288, 0, 65536, 524312, 0, 65539, 589824, 0, 65536, 589848, 0, 65539, 655360, 0, 65536, 655384, 0, 65539, 720896, 0, 65536, 720904, 1, 0, 720905, 1, 1, 720906, 1, 2, 720920, 0, 65539, 786432, 0, 65536, 786439, 1, 0, 786440, 1, 65537, 786441, 1, 65537, 786442, 1, 131074, 786456, 0, 65539, 851968, 0, 65536, 851975, 1, 65536, 851976, 1, 65537, 851977, 1, 65538, 851992, 0, 65539, 917504, 0, 65536, 917511, 1, 65536, 917512, 1, 65537, 917513, 1, 131074, 917528, 0, 65539, 983040, 0, 65536, 983047, 1, 131072, 983048, 1, 131074, 983058, 1, 0, 983059, 1, 1, 983060, 1, 2, 983064, 0, 65539, 1048576, 0, 65536, 1048593, 1, 0, 1048594, 1, 65537, 1048595, 1, 65537, 1048596, 1, 65538, 1048600, 0, 65539, 1114112, 0, 65536, 1114129, 1, 131072, 1114130, 1, 131073, 1114131, 1, 131073, 1114132, 1, 131074, 1114136, 0, 65539, 1179648, 0, 65536, 1179672, 0, 65539, 1245184, 0, 131072, 1245185, 0, 131073, 1245186, 0, 131073, 1245187, 0, 131073, 1245188, 0, 131073, 1245189, 0, 131073, 1245190, 0, 131073, 1245191, 0, 131073, 1245192, 0, 131073, 1245193, 0, 131073, 1245194, 0, 131073, 1245195, 0, 131073, 1245196, 0, 131073, 1245197, 0, 131073, 1245198, 0, 131073, 1245199, 0, 131073, 1245200, 0, 131073, 1245201, 0, 131073, 1245202, 0, 131073, 1245203, 0, 131073, 1245204, 0, 131073, 1245205, 0, 131073, 1245206, 0, 131073, 1245207, 0, 131073, 1245208, 0, 131075 )
-
-[node name="PseudoFrank" type="Sprite" parent="."]
-position = Vector2( 16, 32 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 63, 0, 8, 8 )
-
-[node name="MoveRight" type="Node" parent="PseudoFrank"]
-script = ExtResource( 3 )
 
 [node name="FrankTheSchrank" parent="." instance=ExtResource( 2 )]
 position = Vector2( 104, 64 )
@@ -50,16 +39,16 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 36, 18, 8, 8 )
 
-[node name="Key" parent="." instance=ExtResource( 8 )]
+[node name="Key" parent="." instance=ExtResource( 5 )]
 position = Vector2( 128, 48 )
 
-[node name="Key3" parent="." instance=ExtResource( 8 )]
+[node name="Key3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 160, 40 )
 
-[node name="Key2" parent="." instance=ExtResource( 8 )]
+[node name="Key2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 72, 40 )
 
-[node name="Key4" parent="." instance=ExtResource( 8 )]
+[node name="Key4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 136, 32 )
 
 [node name="Potion" type="Node2D" parent="."]
@@ -71,5 +60,17 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 63, 72, 8, 8 )
 
-[node name="Collectible" parent="Potion/Sprite" instance=ExtResource( 7 )]
+[node name="Collectible" parent="Potion/Sprite" instance=ExtResource( 3 )]
 item_name = "potion"
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 56, 48 )
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 81, 45, 8, 8 )
+
+[node name="Collectible" parent="Node2D/Sprite" instance=ExtResource( 3 )]
+item_name = "ring"

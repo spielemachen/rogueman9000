@@ -34,6 +34,7 @@ func _physics_process(delta):
 	if direction != Vector2.ZERO:
 		parent.move_and_collide(map.map_to_world(direction))
 		direction = Vector2.ZERO
+		print(parent.position)
 
 #		parent.position = map.map_to_world(map.world_to_map(parent.position) + pos_change)
 
