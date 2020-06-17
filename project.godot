@@ -18,6 +18,10 @@ _global_script_class_icons={
 config/name="RogueMan9000"
 run/main_scene="res://Game/Game.tscn"
 
+[autoload]
+
+Config="*res://Game/config.gd"
+
 [display]
 
 window/size/width=160
@@ -68,7 +72,7 @@ switch_player={
 2d_physics/layer_1="Walls"
 2d_physics/layer_2="Enemies"
 2d_physics/layer_3="Player"
-2d_physics/layer_4="Collectables"
+2d_physics/layer_4="Collectibles"
 2d_physics/layer_5="Doors"
 
 [rendering]
