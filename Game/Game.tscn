@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/colored_tilemap.png" type="Texture" id=1]
 [ext_resource path="res://Actors/Player/Player.tscn" type="PackedScene" id=2]
@@ -7,12 +7,15 @@
 [ext_resource path="res://Collectibles/Key.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Actors/Enemies/Enemy.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/Game.gd" type="Script" id=7]
+[ext_resource path="res://Game/Door.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 7 )
 switch_partner_node_paths = [ NodePath("FrankTheSchrank"), NodePath("LuisHugoGruber") ]
 
-[node name="WorldMap" type="TileMap" parent="."]
+[node name="WorldMap" type="TileMap" parent="." groups=[
+"solid",
+]]
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 8, 8 )
 cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
@@ -26,17 +29,13 @@ collision_mask = 27
 [node name="LuisHugoGruber" parent="." instance=ExtResource( 6 )]
 
 [node name="LuisHugoGruber2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 96, 32 )
+position = Vector2( 104, 32 )
 
 [node name="LuisHugoGruber3" parent="." instance=ExtResource( 6 )]
 position = Vector2( 72, 64 )
 
-[node name="Tür" type="Sprite" parent="."]
+[node name="Tür" parent="." instance=ExtResource( 8 )]
 position = Vector2( 80, 0 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 36, 18, 8, 8 )
 
 [node name="Key" parent="." instance=ExtResource( 5 )]
 position = Vector2( 128, 48 )
@@ -52,6 +51,9 @@ position = Vector2( 136, 32 )
 
 [node name="Potion" type="Node2D" parent="."]
 position = Vector2( 128, 72 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="Potion"]
 texture = ExtResource( 1 )

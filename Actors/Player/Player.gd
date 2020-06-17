@@ -6,17 +6,21 @@ extends Node
 # var b = "text"
 export var map_path: NodePath
 
-var parent: KinematicBody2D
+var parent: Area2D
 
 var direction = Vector2.ZERO
 var ray: RayCast2D
+var inventory: Inventory
 
 # Called when the node enters the scene tree for the first time.
 func _enter_tree():
 	parent = get_parent()
 	ray = parent.get_node("CollisionRayCast")
+	inventory = parent.get_node_or_null("Inventory")
 
 func _input(event):
+	var trigger_turn = false
+	
 	direction = Vector2.ZERO
 
 	if event.is_action_pressed("ui_left"):
@@ -29,28 +33,41 @@ func _input(event):
 		direction = Vector2.DOWN;
 	
 	if direction != Vector2.ZERO:
-		var movement = direction * Config.grid_size
-		ray.cast_to = movement
+		trigger_turn = true
+		var move_by = direction * Config.grid_size
+		ray.cast_to = move_by
 		ray.force_raycast_update()
 		if !ray.is_colliding():
-			parent.position += movement
-			print(parent.position)
+			parent.position += move_by
 		else:
-			var collider = ray.get_collider()
-			if collider is Area2D && collider.is_in_group("enemies"):
-				get_tree().quit()
+			_check_and_act_on_collider(move_by)
+			
+	if event.is_action_pressed("activate"):
+		trigger_turn = true
 
+#	if event.is_action_pressed("activate"):
+#		trigger_turn = true
+#		ray.force_raycast_update()
+#		if ray.is_colliding():
+#			var collider = ray.get_collider()
+#			if collider.is_in_group("doors") && collider.has_method("close"):
+#				collider.close()
 				
+				
+	if trigger_turn:
+		Events.emit_signal("player_turn_done")
 
-#func _physics_process(delta):
-#	if direction != Vector2.ZERO:
-#		parent.move_and_collide(map.map_to_world(direction))
-#		direction = Vector2.ZERO
-#		print(parent.position)
-
-#		parent.position = map.map_to_world(map.world_to_map(parent.position) + pos_change)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _check_and_act_on_collider(move_by):
+	var collider = ray.get_collider()
+	
+	if !collider.is_in_group("solid"):
+		parent.position += move_by
+		
+	if collider.is_in_group("enemies"):
+		get_tree().quit()
+		
+	if collider.is_in_group("doors"):
+		if inventory != null && inventory.has("key"):
+			if collider.has_method("open"):
+				collider.open()
+				inventory.remove("key")
