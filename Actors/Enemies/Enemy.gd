@@ -11,6 +11,7 @@ func _ready():
 	randomize()
 	
 func turn():
+	yield(get_tree(), "physics_frame")
 	match randi() % 8:
 		0:
 			direction = Vector2.RIGHT
