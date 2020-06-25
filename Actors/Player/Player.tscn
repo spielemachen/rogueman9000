@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Actors/Inventory.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Actors/Player/PlayerBody.gd" type="Script" id=3]
 [ext_resource path="res://Assets/colored_tilemap.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -13,6 +14,7 @@ extents = Vector2( 4, 4 )
 ]]
 collision_layer = 4
 collision_mask = 8
+script = ExtResource( 3 )
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -27,7 +29,9 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 63, 0, 8, 8 )
 
-[node name="Player" type="Node2D" parent="."]
+[node name="Player" type="Node2D" parent="." groups=[
+"player",
+]]
 script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -41,3 +45,6 @@ position = Vector2( 4, 4 )
 cast_to = Vector2( 0, 0 )
 collision_mask = 19
 collide_with_areas = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 19

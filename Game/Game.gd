@@ -28,10 +28,13 @@ func _input(event):
 		
 		# Wer hat den Player node?
 		for switch_partner in switch_partner_nodes:
-			if switch_partner.is_a_parent_of(player_node):
-				giver = switch_partner
+			if is_instance_valid(switch_partner):
+				if switch_partner.is_a_parent_of(player_node):
+					giver = switch_partner
+				else:
+					recipient = switch_partner
 			else:
-				recipient = switch_partner
+				pass
 				
 		if giver != null && recipient != null:
 			giver.remove_child(player_node)

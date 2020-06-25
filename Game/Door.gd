@@ -1,16 +1,22 @@
 extends Area2D
 
 export var is_open = false
+export var is_locked = true
 
-func open():
+func get_push_requirement(from):
+	if is_locked:
+		return "key"
+	return null
+	
+func push(from):
 	if !is_open:
 		$Sprite.region_rect.position.x += 9
 		remove_from_group("solid")
-		collision_layer = 0
 		is_open = true
+		is_locked = false
 	pass
-	
-func close():
+
+func activate(from):
 	if is_open:
 		$Sprite.region_rect.position.x -= 9
 		add_to_group("solid")
