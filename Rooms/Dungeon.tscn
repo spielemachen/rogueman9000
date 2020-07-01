@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Rooms/Dungeon.gd" type="Script" id=1]
+[ext_resource path="res://Assets/master_tileset.tres" type="TileSet" id=2]
+
+[node name="World" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Rooms" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 10, 10 )
+
+[node name="Map" type="TileMap" parent="." groups=[
+"solid",
+]]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+format = 1

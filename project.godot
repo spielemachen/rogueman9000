@@ -92,6 +92,10 @@ activate={
 2d_physics/layer_4="Collectibles"
 2d_physics/layer_5="Doors"
 
+[physics]
+
+2d/default_gravity=0
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
