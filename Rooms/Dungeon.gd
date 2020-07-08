@@ -3,7 +3,7 @@ extends Node2D
 var Room = preload("res://Rooms/Room.tscn")
 var Player = preload("res://Actors/Player/Player.tscn")
 var ROOM_AMOUNT = 20
-var DELETE_RATE = 0.4
+var DELETE_RATE = 0.5
 var MIN_SIZE = 5
 var MAX_SIZE = 10
 
@@ -21,7 +21,7 @@ func _input(event):
 		var roomsContainer = Node.new()
 		roomsContainer.name = 'Rooms'
 		add_child(roomsContainer)
-		for i in range(1, ROOM_AMOUNT):
+		for i in range(0, ROOM_AMOUNT):
 			var room = Room.instance()
 			var width = MIN_SIZE + randi() % (MAX_SIZE - MIN_SIZE)
 			var height = MIN_SIZE + randi() % (MAX_SIZE - MIN_SIZE)
@@ -94,22 +94,58 @@ func find_mst(nodes: Array):
 
 func create_map():
 	map.clear()
-	print('create map');	
+
 	for room in $Rooms.get_children():
 		var left_top = map.world_to_map(room.position - room.size)
 		var right_bottom = map.world_to_map(room.position + room.size)
 		
 		for x in range(left_top.x + 2, right_bottom.x - 1):
-			map.set_cell(x, left_top.y + 1, 0, false, false, false, Vector2(1, 0))
+			map.set_cell(x, left_top.y + 1, 0, false, false, false, Config.WALL_TOP)
 		for y in range(left_top.y + 2, right_bottom.y - 1):
-			map.set_cell(right_bottom.x - 1, y, 0, false, false, false, Vector2(3, 1))
+			map.set_cell(right_bottom.x - 1, y, 0, false, false, false, Config.WALL_RIGHT)
 		for y in range(left_top.y + 2, right_bottom.y - 1):
-			map.set_cell(left_top.x + 1, y, 0, false, false, false, Vector2(0, 1))
+			map.set_cell(left_top.x + 1, y, 0, false, false, false, Config.WALL_LEFT)
 		for x in range(left_top.x + 2, right_bottom.x - 1):
-			map.set_cell(x, right_bottom.y - 1, 0, false, false, false, Vector2(1, 0))
+			map.set_cell(x, right_bottom.y - 1, 0, false, false, false, Config.WALL_BOTTOM)
 
-		map.set_cell(left_top.x + 1, left_top.y + 1, 0, false, false, false, Vector2.ZERO)
-		map.set_cell(right_bottom.x - 1, left_top.y + 1, 0, false, false, false, Vector2(3, 0))
-		map.set_cell(left_top.x + 1, right_bottom.y - 1, 0, false, false, false, Vector2(0, 2))
-		map.set_cell(right_bottom.x - 1, right_bottom.y - 1, 0, false, false, false, Vector2(3, 2))
-		##map.set_cell(lefttop.x, lefttop.y, 1)
+		for x in range(left_top.x + 2, right_bottom.x - 1):
+			for y in range(left_top.y + 2, right_bottom.y - 1):
+				map.set_cell(x, y, 0, false, false, false, Config.FLOOR)
+
+		map.set_cell(left_top.x + 1, left_top.y + 1, 0, false, false, false, Config.WALL_TOP_LEFT)
+		map.set_cell(right_bottom.x - 1, left_top.y + 1, 0, false, false, false, Config.WALL_TOP_RIGHT)
+		map.set_cell(left_top.x + 1, right_bottom.y - 1, 0, false, false, false, Config.WALL_BOTTOM_LEFT)
+		map.set_cell(right_bottom.x - 1, right_bottom.y - 1, 0, false, false, false, Config.WALL_BOTTOM_RIGHT)
+
+	if graph:
+	
+		for point_id in graph.get_points():
+			for connected_point_id in graph.get_point_connections(point_id):
+				var position1 = graph.get_point_position(point_id)
+				var position2 = graph.get_point_position(connected_point_id)
+				var current_position = map.world_to_map(position1)
+				var position2_map = map.world_to_map(position2)
+				var diff_vector = position2_map - current_position
+	
+				while position2_map.x != current_position.x:
+					if map.get_cell_autotile_coord(current_position.x, current_position.y - 1) != Config.FLOOR:
+						map.set_cell(current_position.x, current_position.y - 1, 0, false, false, false, Config.WALL_TOP)
+					map.set_cell(current_position.x, current_position.y, 0, false, false, false, Config.FLOOR)
+					if map.get_cell_autotile_coord(current_position.x, current_position.y + 1) != Config.FLOOR:
+						map.set_cell(current_position.x, current_position.y + 1, 0, false, false, false, Config.WALL_BOTTOM)
+					current_position.x += diff_vector.sign().x
+	
+				if map.get_cell_autotile_coord(current_position.x, current_position.y - 1) != Config.FLOOR:
+					map.set_cell(current_position.x, current_position.y - 1, 0, false, false, false, Config.WALL_TOP)
+				map.set_cell(current_position.x, current_position.y, 0, false, false, false, Config.FLOOR)
+				if map.get_cell_autotile_coord(current_position.x, current_position.y + 1) != Config.FLOOR:
+					map.set_cell(current_position.x, current_position.y + 1, 0, false, false, false, Config.WALL_BOTTOM)
+				current_position.x += diff_vector.sign().x
+	
+				while position2_map.y != current_position.y:
+					if map.get_cell_autotile_coord(current_position.x - 1, current_position.y) != Config.FLOOR:
+						map.set_cell(current_position.x - 1, current_position.y, 0, false, false, false, Config.WALL_LEFT)
+					map.set_cell(current_position.x, current_position.y, 0, false, false, false, Config.FLOOR)
+					if map.get_cell_autotile_coord(current_position.x + 1, current_position.y) != Config.FLOOR:
+						map.set_cell(current_position.x + 1, current_position.y, 0, false, false, false, Config.WALL_RIGHT)
+					current_position.y += diff_vector.sign().y	

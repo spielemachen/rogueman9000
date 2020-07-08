@@ -45,6 +45,3 @@ position = Vector2( 4, 4 )
 cast_to = Vector2( 0, 0 )
 collision_mask = 19
 collide_with_areas = true
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 19
