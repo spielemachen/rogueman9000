@@ -35,7 +35,7 @@ func _input(event):
 					recipient = switch_partner
 			else:
 				pass
-				
+		
 		if giver != null && recipient != null:
 			giver.remove_child(player_node)
 			recipient.add_child(player_node)			
