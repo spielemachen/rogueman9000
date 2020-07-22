@@ -17,5 +17,5 @@ var WALL_BOTTOM_RIGHT_INNER = Vector2(1,3)
 var WALL_TOP_LEFT_INNER = Vector2(2,3)
 var WALL_TOP_RIGHT_INNER = Vector2(3,3)
 
-var TILE_FLOOR = 3
-var TILE_STONE = 4
+var TILE_FLOOR = 1
+var TILE_STONE = 0
