@@ -34,7 +34,7 @@ region_rect = Rect2( 63, 0, 8, 8 )
 ]]
 script = ExtResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="PlayerCam" type="Camera2D" parent="Player"]
 position = Vector2( 4, 4 )
 current = true
 drag_margin_h_enabled = true

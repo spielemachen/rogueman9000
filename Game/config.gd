@@ -1,6 +1,7 @@
 extends Node
 
 var grid_size = Vector2(8, 8)
+var room_size = Vector2(11, 11)
 
 var WALL_BOTTOM = Vector2(1, 0)
 var WALL_TOP = Vector2(1, 0)

@@ -33,19 +33,6 @@ func generate_dungeon(room_amount, delete_rate, min_size, max_size):
 			room.init_room(Vector2.ZERO, Config.grid_size * Vector2(width, height))
 
 		yield(get_tree().create_timer(1.5), 'timeout')
-#		yield(get_tree(), 'idle_frame')
-#
-#		var still_colliding = true
-#
-#
-#		while still_colliding:
-#			still_colliding = false
-#			for room in $Rooms.get_children():
-#				print (room.get_colliding_bodies().size())
-#				if room.get_colliding_bodies().size() > 0:
-#					still_colliding = true
-#					break
-#			yield(get_tree(), 'physics_frame')
 
 		var room_positions = []		
 		for room in $Rooms.get_children():
@@ -61,21 +48,23 @@ func generate_dungeon(room_amount, delete_rate, min_size, max_size):
 		create_map()
 		
 		map.update_bitmask_region()
+		
+		Events.emit_signal("level_loaded")
 
-func _process(delta):
-	update()
+#func _process(delta):
+#	update()
 
-func _draw():
-	for room in $Rooms.get_children():
-		draw_rect(Rect2(room.position - room.size, room.size * 2), Color.red, false)
-	pass
-	
-	if graph:
-		for point in graph.get_points():
-			for point_other in graph.get_point_connections(point):
-				var pos1 = graph.get_point_position(point)
-				var pos2 = graph.get_point_position(point_other)
-				draw_line(pos1, pos2, Color.orange, 3, true)
+#func _draw():
+#	for room in $Rooms.get_children():
+#		draw_rect(Rect2(room.position - room.size, room.size * 2), Color.red, false)
+#	pass
+#
+#	if graph:
+#		for point in graph.get_points():
+#			for point_other in graph.get_point_connections(point):
+#				var pos1 = graph.get_point_position(point)
+#				var pos2 = graph.get_point_position(point_other)
+#				draw_line(pos1, pos2, Color.orange, 3, true)
 		
 
 func find_mst(nodes: Array):
@@ -122,6 +111,8 @@ func create_map():
 	var top_left_corner = Vector2(INF, INF)
 	var bottom_right_corner = Vector2(-INF, -INF)
 	
+	var is_player_positioned := false
+	
 	for room in $Rooms.get_children():
 		if player_spawn_point == null:
 			player_spawn_point = map.world_to_map(room.position)
@@ -134,8 +125,14 @@ func create_map():
 		bottom_right_corner.x = max(bottom_right_corner.x, bottom_right_corner_room.x)
 		bottom_right_corner.y = max(bottom_right_corner.y, bottom_right_corner_room.y)
 		
-		for x in range(top_left_corner_room.x + 1, bottom_right_corner_room.x):
-			for y in range(top_left_corner_room.y + 1, bottom_right_corner_room.y):
+		for x in range(top_left_corner_room.x + 2, bottom_right_corner_room.x - 1):
+			for y in range(top_left_corner_room.y + 2, bottom_right_corner_room.y - 1):
+				if !is_player_positioned:
+					var player_spawn: Position2D = Position2D.new()
+					add_child(player_spawn)
+					player_spawn.name = "PlayerSpawnPoint"
+					player_spawn.position = map.map_to_world(Vector2(x, y))
+					is_player_positioned = true
 				map.set_cell(x, y, Config.TILE_FLOOR)
 	
 	top_left_corner -= Vector2.ONE * 10
