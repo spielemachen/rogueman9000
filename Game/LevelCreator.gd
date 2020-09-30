@@ -6,9 +6,12 @@ onready var reference_map: TileMap = $ReferenceMap
 export(PackedScene) var StartingRoom
 export(PackedScene) var EndRoom
 export(Array, PackedScene) var rooms
+export var tile_map_merger_path: NodePath
 
 func create_level(level):
 	randomize()
+	
+	var tile_map_merger = get_node(tile_map_merger_path) as TileMapMerger
 	
 	var room_directions = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
 	
@@ -46,6 +49,10 @@ func create_level(level):
 		current_room.position = current_position
 		room_by_position[current_position] = current_room
 
+		tile_map_merger.source_maps.push_back(current_room.find_node("Map").get_path())
+
 	var key_spawns = get_tree().get_nodes_in_group("KeySpawn")
 	for key_spawn in key_spawns:
 		key_spawn.spawn_key()
+		
+	tile_map_merger.merge_maps()

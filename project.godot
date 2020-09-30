@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Inventory",
 "language": "GDScript",
 "path": "res://Actors/Inventory.gd"
+}, {
+"base": "Node",
+"class": "TileMapMerger",
+"language": "GDScript",
+"path": "res://Library/TileMapMerger.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",
-"Inventory": ""
+"Inventory": "",
+"TileMapMerger": ""
 }
 
 [application]

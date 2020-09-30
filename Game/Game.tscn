@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Game/LevelCreator.gd" type="Script" id=1]
 [ext_resource path="res://Assets/wall_tileset.tres" type="TileSet" id=2]
@@ -8,15 +8,21 @@
 [ext_resource path="res://Level/Room03.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/Game.gd" type="Script" id=7]
 [ext_resource path="res://Level/RoomEnd.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Library/TileMapMerger.gd" type="Script" id=9]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 7 )
+
+[node name="TileMapMerger" type="Node" parent="."]
+script = ExtResource( 9 )
+target_map = NodePath("../LevelCreator/ReferenceMap")
 
 [node name="LevelCreator" type="Node2D" parent="."]
 script = ExtResource( 1 )
 StartingRoom = ExtResource( 5 )
 EndRoom = ExtResource( 8 )
 rooms = [ ExtResource( 3 ), ExtResource( 6 ), ExtResource( 4 ) ]
+tile_map_merger_path = NodePath("../TileMapMerger")
 
 [node name="ReferenceMap" type="TileMap" parent="LevelCreator" groups=[
 "solid",
