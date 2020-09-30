@@ -34,7 +34,7 @@ func _check_and_act_on_collider(move_by):
 func _get_collider():
 	var collider = ray.get_collider()
 	var ignored_colliders = []
-	while collider != null && collider.position == actor_object.position:
+	while collider != null && collider.global_position == actor_object.global_position:
 		ray.add_exception(collider)
 		ignored_colliders.push_back(collider)
 		ray.force_raycast_update()
